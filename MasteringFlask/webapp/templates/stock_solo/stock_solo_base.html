@@ -1,0 +1,20 @@
+{% extends "stock_base_xb.html" %}
+{% block current_user %}
+    当前用户：{{ current_user.username }}
+{% endblock %}
+
+{% block body %}
+    <div>
+        {% block form %}{% endblock %}
+    </div>
+
+{% block tab %}{% endblock %}
+
+    <!-- 以下对应四个功能页面-->
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="basics" style="height:60%;">
+            {% block table %}{% endblock %}
+        </div>
+    </div>
+
+{% endblock %}

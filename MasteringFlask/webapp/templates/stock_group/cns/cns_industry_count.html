@@ -1,0 +1,179 @@
+{% extends "stock_group/cns/cns_base.html" %}
+
+{#{% block fixTable %} 没法用fixtable  #}
+{#    <script>#}
+{#			$(document).ready(function() {#}
+{#				$("#fixTable").tableHeadFixer({"left" : 1});#}
+{#			});#}
+{#    </script>#}
+{#{% endblock %}#}
+
+{% block tab %}
+    <ul class="nav nav-pills">
+        <li class="active"><a href="{{ url_for('stock_group.cns_home') }}">沪深交易所A股上市公司</a></li>
+        <li><a>沪深交易所B股上市公司</a></li>
+        <li><a href="{{ url_for('stock_group.hushen_300') }}">附表1.沪深300成分股</a></li>
+        <li><a href="{{ url_for('stock_group.hushen_300') }}">附表2.上证50成分股</a></li>
+        <li><a href="{{ url_for('stock_group.lugutong') }}">附表3.陆股通</a></li>
+        <li><a href="{{ url_for('stock_group.industry_count') }}">附表A.行业分类</a></li>
+        <li><a>附表B.证监会行业分类</a></li>
+    </ul>
+{% endblock %}
+<!-- 添加了block fixTable 和id=fixTable 后，本页的table才不会溢出-->
+{% block industry %}
+    <div class="row clearfix">
+		<div class="col-md-3 column">
+            <ul id="myTab" class="nav nav-stacked nav-pills"> <!--有nav-tabs莫名出现一条线-->
+	            <li><a href="#a" data-toggle="tab">部门分类(第一级)</a></li>
+                <li><a href="#b" data-toggle="tab">行业组分类(第二级)</a></li>
+                <li><a href="#c" data-toggle="tab">行业分类(第三级)</a></li>
+                <li><a href="#d" data-toggle="tab">子行业分类(第四级)</a></li>
+                <li><a href="#e" data-toggle="tab">所在区域分类</a></li>
+                <li><a href="#f" data-toggle="tab">数据有效性</a></li>
+            </ul>
+		</div>
+		<div class="col-md-9 column">
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="a">
+                    a
+                </div>
+                <div class="tab-pane fade" id="b">
+                    <table style="white-space: nowrap;">
+                        <thead>
+                            <tr bgcolor="#CC0000">
+                                <td><font color="white">部门</font></td>
+                                <td><font color="white">行业组</font></td>
+                                <td><font color="white">占比</font></td>
+                                <td><font color="white">计数</font></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for x in range(group_industry_count_group[0][0]) %}
+                            <tr>
+                                <td>{{ group_industry_count[x][4] }}</td>
+                                <td>{{ group_industry_count[x][3] }}</td>
+                                <td>
+                                    <img src="../../../static/jianbian.jpg" style="width: {{ (group_industry_count[x][0]/group_industry_count_max_value)*100 }}%;height: 15px;">
+                                </td>
+                                <td>{{ group_industry_count[x][0] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="c">
+                    <table style="white-space: nowrap;">
+                        <thead>
+                            <tr bgcolor="#CC0000">
+                                <td><font color="white">部门</font></td>
+                                <td><font color="white">行业组</font></td>
+                                <td><font color="white">行业</font></td>
+                                <td><font color="white">占比</font></td>
+                                <td><font color="white">计数</font></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for x in range(industry_count_group[0][0]) %}
+                            <tr>
+                                <td>{{ industry_count[x][4] }}</td>
+                                <td>{{ industry_count[x][3] }}</td>
+                                <td>{{ industry_count[x][2] }}</td>
+                                <td>
+                                    <img src="../../../static/jianbian.jpg" style="width: {{ (industry_count[x][0]/industry_count_max_value)*100 }}%;height: 15px;">
+                                </td>
+                                <td>{{ industry_count[x][0] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+</table>
+                </div>
+                <div class="tab-pane fade" id="d">
+                    <table style="white-space: nowrap;">
+    <thead>
+        <tr bgcolor="#CC0000">
+            <td><font color="white">部门</font></td>
+            <td><font color="white">行业组</font></td>
+            <td><font color="white">行业</font></td>
+            <td><font color="white">子行业</font></td>
+            <td><font color="white">占比</font></td>
+            <td><font color="white">计数</font></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for x in range(sub_industry_count_group[0][0]) %} <!--改改改-->
+        <tr>
+            <td>{{ sub_industry_count[x][4] }}</td>
+            <td>{{ sub_industry_count[x][3] }}</td>
+            <td>{{ sub_industry_count[x][2] }}</td>
+            <td>{{ sub_industry_count[x][1] }}</td>
+            <td>
+                <img src="../../../static/jianbian.jpg" style="width: {{ (sub_industry_count[x][0]/sub_industry_count_max_value)*100 }}%;height: 15px;">
+            </td>
+            <td style="text-align: right;">
+                {{ sub_industry_count[x][0] }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+                </div>
+                <div class="tab-pane fade" id="e">
+                    <table style="white-space: nowrap;">
+                        <thead>
+                            <tr bgcolor="#CC0000">
+                                <td><font color="white">所在区域</font></td>
+                                <td><font color="white">占比</font></td>
+                                <td><font color="white">计数</font></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for x in range(province_count_group[0][0]) %}
+                            <tr>
+                                <td>{{ province_count[x][0] }}</td>
+                                <td>
+                                    <img src="../../../static/jianbian.jpg" style="width: {{ (province_count[x][1]/province_count_max_value)*100 }}%;height: 15px;">
+                                </td>
+                                <td>{{ province_count[x][1] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+</table>
+                </div>
+                <div class="tab-pane fade" id="f">
+                    f
+                </div>
+            </div>
+		</div>
+	</div>
+<!-- js part -->
+<script>
+$(function(){
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		// 获取已激活的标签页的名称
+		var activeTab = $(e.target).text();
+		// 获取前一个激活的标签页的名称
+		var previousTab = $(e.relatedTarget).text();
+		$(".active-tab span").html(activeTab);
+		$(".previous-tab span").html(previousTab);
+	});
+});
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+{# 实现了占比显示,满满的成就感#}
+
+
+
+
+{# 这是成功的测试代码 #}
+{#{% for x in range(135) %}#}
+{#{{ count_query[x][0] }}<br>#}
+{#{% endfor %}#}
+{# 待用 #}
+{#<td style="background-image:url(../../../static/jianbian.jpg);width: 60px;">{{ count_query[x][0] }}</td>#}

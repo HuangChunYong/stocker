@@ -1,0 +1,28 @@
+{% extends "stock_base_xb.html" %}
+{% block current_user %}
+    当前用户：{{ current_user.username }}
+{% endblock %}
+
+{% block body %}
+        {% block filter %}{% endblock %}
+        {% block tab %}{% endblock %}
+        <br>
+            <div id="myTabContent" class="tab-content" > <!--style="border-top:1px solid #000"-->
+                <div class="tab-pane fade in active" id="industry" style="height:60%;overflow-y:auto;"> <!--overflow-y:auto;若无，则table会溢出-->
+                    {% block industry %}{% endblock %}
+                </div>
+            </div>
+        {% block navigation%}{% endblock %}
+
+{% endblock %}
+
+{#    <ul id="myTab" class="nav nav-pills">#}
+{#        <li><a>SE.交易所</a></li>#}
+{#        <li><a href="#global_industry" data-toggle="">沪深交易所A股上市公司</a></li>#}
+{#        <li><a href="#global_industry">沪深交易所B股上市公司</a></li>#}
+{#        <li><a href="#draw_picture">附表1.沪深300成分股</a></li>#}
+{#        <li><a href="#picture_analysis">test</a></li>#}
+{#        <li><a href="#picture_analysis">test</a></li>#}
+{#        <li><a href="#picture_analysis">test</a></li>#}
+{#        <li><a href="#picture_analysis">test</a></li>#}
+{#    </ul>#}

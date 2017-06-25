@@ -1,0 +1,5 @@
+<form class="form-search" method="POST" action="{{ url_for('.usa_update_industry') }}">
+    {{ form.hidden_tag() }}
+    可选“部门”有：{{ form.old_industry }}
+    修改“部门”为：{{ form.new_industry }}<input type="submit" value="修改" contenteditable="true" style="background-color: rgb(204, 232, 207);">
+</form>

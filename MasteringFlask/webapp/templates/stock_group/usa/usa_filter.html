@@ -1,0 +1,5 @@
+<form class="form-search" method="POST" action="{{ url_for('.usa_filter') }}">
+    {{ form.hidden_tag() }}
+    部门：{{ form.gics_code }}<input type="submit" value="筛选" contenteditable="true" >
+</form>
+

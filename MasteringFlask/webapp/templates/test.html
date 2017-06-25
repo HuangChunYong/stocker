@@ -1,0 +1,197 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>金融投资分析系统</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='js/bootstrap.min.css') }}">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+      <!--[if lt IE 9]>
+        <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style>
+        body{
+          padding-top:50px;
+        }
+        /* .navbar-nav li:visited{
+          display: inline-block;
+          background:  red;
+          } */
+          .navbar-nav li:hover{
+            display: inline-block;
+            background-color: #787d82;
+          }
+          .carousel{
+            max-height:500px;
+            /* background-color: red; */
+            margin-bottom: 70px;
+          }
+          .carousel .item{
+            height:100%;
+          }
+          .carousel .item img{
+            width:100%;
+          }
+          .carousel-inner .carousel-caption{
+              float: left;
+          }
+          #container-produce{
+            text-align: center;
+          }
+          #container-produce .col-md-4 .img-circle{
+            width:140px;
+            height:140px;
+            background-color: #555;
+          }
+        /* #container-produce a{
+          vertical-align: bottom;
+          } */
+          .feature{
+            padding: 30px 0;
+          }
+          .feature .img-circle{
+            width: 250px;
+            height: 250px;
+          }
+          .feature-heading{
+            font-size: 40px;
+            color: #245689;
+            margin-top:60px;
+          }
+          .feature-heading .feature-heading-2{
+            font-size: 20px;
+            color:#356790;
+          }
+          #threecols{
+            margin-bottom:70px;
+          }
+          footer{
+            margin-top:20px;
+          }
+          #footer{
+            position: absolute;
+            bottom: 0;
+          }
+          #signin-signup-tab{
+            margin-top: 30px;
+          }
+          </style>
+</head>
+    <meta charset="utf-8">
+    <meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>金融投资分析系统</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='js/bootstrap.min.css') }}">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+      <!--[if lt IE 9]>
+        <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style>
+        body{
+          padding-top:50px;
+        }
+        /* .navbar-nav li:visited{
+          display: inline-block;
+          background:  red;
+          } */
+          .navbar-nav li:hover{
+            display: inline-block;
+            background-color: #787d82;
+          }
+          .carousel{
+            max-height:500px;
+            /* background-color: red; */
+            margin-bottom: 70px;
+          }
+          .carousel .item{
+            height:100%;
+          }
+          .carousel .item img{
+            width:100%;
+          }
+          .carousel-inner .carousel-caption{
+              float: left;
+          }
+          #container-produce{
+            text-align: center;
+          }
+          #container-produce .col-md-4 .img-circle{
+            width:140px;
+            height:140px;
+            background-color: #555;
+          }
+        /* #container-produce a{
+          vertical-align: bottom;
+          } */
+          .feature{
+            padding: 30px 0;
+          }
+          .feature .img-circle{
+            width: 250px;
+            height: 250px;
+          }
+          .feature-heading{
+            font-size: 40px;
+            color: #245689;
+            margin-top:60px;
+          }
+          .feature-heading .feature-heading-2{
+            font-size: 20px;
+            color:#356790;
+          }
+          #threecols{
+            margin-bottom:70px;
+          }
+          footer{
+            margin-top:20px;
+          }
+          #footer{
+            position: absolute;
+            bottom: 0;
+          }
+          #signin-signup-tab{
+            margin-top: 30px;
+          }
+          </style>
+</head>
+
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+            <div class="container">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <div class="navbar-header">
+                <img src="../static/logo_white_test.png">
+              </div>
+
+              <!-- 左上角的导航 -->
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav" >
+                    <li><a href="#"><font size="4">金融投资分析系统</font><span class="sr-only">(current)</span></a></li>
+                    <li> {% block current_user %}{% endblock %}</li>
+                </ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">账号设置<span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+                                <li data-toggle="modal" data-target="#signin-signup-tab" id="signin-button"><a href="#">登陆</a></li>
+							  <li data-toggle="modal" data-target="#signin-signup-tab" id="signup-button"><a href="#">注册</a></li>
+							  <li><a href="#shuiliandong">注销账号</a></li>
+								<li class="divider"></li>
+							  <li><a href="#">更多..</a></li>
+							</ul>
+                  </li>
+				</ul>
+              </div>
+            </div>
+         </nav>

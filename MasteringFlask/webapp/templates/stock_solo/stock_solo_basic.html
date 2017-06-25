@@ -1,0 +1,92 @@
+{% extends "stock_solo/stock_solo_base.html" %}
+{% block form %}
+    <form class="form-search" method="POST" action="{{ url_for('stock_solo.basic') }}">
+        {{ form.hidden_tag() }}
+        {{ form.code(id='tags',class_='input-sm',placeholder='输入股票代号或名称',title="内含自动补全功能，输入关键字即可补全股票代码或名称") }}
+        <input class="btn btn-success btn-xs" type="submit" value="搜索" contenteditable="true" data-toggle="tooltip" title="内含自动补全功能，输入关键字即可补全股票代码或名称" data-placement="right">
+    </form>
+    <script>
+	$(function () { $("[data-toggle='tooltip']").tooltip(); });
+    </script> <!--用于实现“右侧提示框”-->
+{% endblock %}
+
+{% block tab %}
+        <ul class="nav nav-pills">
+            <li><a href="{{ url_for('stock_solo.basic') }}">基本情况</a></li>
+            <li><a href="{{ url_for('stock_solo.finance_data') }}">财务数据及分析</a></li>
+            <li><a href="{{ url_for('stock_solo.invest_value') }}">投资价值分析</a></li>
+            <li><a>制图数据</a></li>
+            <li><a>图表分析</a></li>
+        </ul>
+{% endblock %}
+
+{% block table %}
+    <table class="auto-style1" align="center" style="width:100%;height: 100%; border-width: 2px; border-style: solid; border-color: #000000; background-color: #FFFFFF; font-family: 宋体, Arial, Helvetica, sans-serif; font-size: 10px;">
+        <tr style="height: 15%">
+            <td rowspan="2" style="text-align:center; width:15%; border-style: solid; border-width: thin; border-color: #000000;"><img src="../static/logo.png"></td>
+            <td colspan="7">&nbsp;</td>
+        </tr>
+        <tr style="height: 10%">
+            <td class="auto-style3" style="width: 12%;background-color: #FF3300; color: #FFFFFF;">证券代码</td>
+            <td class="auto-style3" style="width: 12%;background-color: #FF3300; color: #FFFFFF;">证券名称</td>
+            <td class="auto-style3" style="width: 12%;background-color: #FF3300; color: #FFFFFF;">上市时间</td>
+            <td class="auto-style3" style="width: 12%;background-color: #FF3300; color: #FFFFFF;">部门</td>
+            <td class="auto-style3" style="width: 12%;background-color: #FF3300; color: #FFFFFF;">行业组</td>
+            <td class="auto-style3" style="width: 12%;background-color: #FF3300; color: #FFFFFF;">行业</td>
+            <td class="auto-style3" style="width: 12%;background-color: #FF3300; color: #FFFFFF;">子行业</td>
+        </tr>
+        <tr>
+            <td rowspan="7" style="border:1px solid;">&nbsp;</td>
+            <td>{{ stock.trade_code }}</td>
+            <td>{{ stock.sec_name }}</td>
+            <td>{{ stock.ipo_date }}</td>
+            <td></td>
+            <td></td>
+            <td>{{ stock.industry_gics }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>上市地点</td>
+            <td>所属板块</td>
+            <td>交易币种</td>
+            <td>会计年结日</td>
+            <td>审计机构</td>
+            <td>省份</td>
+            <td>城市</td>
+        </tr>
+        <tr>
+            <td>{{ stock.exch_city }}</td>
+            <td>&nbsp;</td>
+            <td>{{ stock.curr }}</td>
+            <td>{{ stock.fiscaldate }}</td>
+            <td>{{ stock.auditor }}</td>
+            <td>{{ stock.province }}</td>
+            <td>{{ stock.city }}</td>
+        </tr>
+        <tr>
+            <td class="auto-style2">成立时间</td>
+            <td class="auto-style2">公司属性</td>
+            <td class="auto-style2">董事长</td>
+            <td class="auto-style2" colspan="2">实际控制人</td>
+            <td class="auto-style2">公司网站</td>
+            <td class="auto-style2">联系电话</td>
+        </tr>
+        <tr>
+            <td>{{ stock.founddate }}</td>
+            <td>{{ stock.concept }}</td>
+            <td>{{ stock.boardchairmen}}</td>
+            <td>{{ stock.holder_controller}}</td>
+            <td></td><!--需要合并单元格-->
+            <td>{{ stock.website}}</td>
+            <td>{{ stock.phone}}</td>
+        </tr>
+        <tr>
+            <td>主营产品类型</td>
+            <td colspan="6">{{ stock.majorproducttype }}</td>
+        </tr>
+        <tr>
+            <td class="auto-style2">主营产品名称</td>
+            <td class="auto-style2" colspan="6">{{ stock.majorproductname }}</td>
+        </tr>
+    </table>
+{% endblock %}

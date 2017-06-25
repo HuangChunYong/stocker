@@ -1,0 +1,55 @@
+{% extends "stock_base_xb.html" %}
+
+{% block body %}
+    {% if not gics_code %}
+    {#  test {{ trade_code }}   #}
+       <form class="form-search" action="{{ url_for('stock_group.usa_alter_sub_industry') }}" method="post">
+           <span class="help-inline">这是您所要修改的证券名称</span>
+           <input class="input-medium" name="sec_name" type="text" value="{{ sec_name }}" readOnly="true"> <br>
+            <select name="gics_code" >
+                {% for x in num %}
+                    <option value="{{ result[x].industry_gicscode_1 }}">{{ result[x].industry_gics_1 }}</option>
+                {% endfor %}
+                <input type="submit" class="btn btn-success" value="下一级">
+            </select>
+       </form>
+    {% endif %}
+    {% if  length ==2 %}
+        <form class="form-search" action="{{ url_for('stock_group.usa_alter_sub_industry') }}" method="post">
+            <span class="help-inline">这是您所要修改的证券名称</span>
+           <input class="input-medium" name="sec_name" type="text" value="{{ sec_name }}" readOnly="true"> <br>
+            <select name="gics_code">
+                {% for x in num %}
+                    <option value="{{ result[x].industry_gicscode_2 }}">{{ result[x].industry_gics_2 }}</option>
+                {% endfor %}
+                <input type="submit" class="btn btn-success"  value="下一级">
+            </select>
+        </form>
+    {% endif %}
+    {% if length == 4  %}
+        <form class="form-search" action="{{ url_for('stock_group.usa_alter_sub_industry') }}" method="post">
+            <span class="help-inline">这是您所要修改的证券名称</span>
+           <input class="input-medium" name="sec_name" type="text" value="{{ sec_name }}" readOnly="true"> <br>
+            <select name="gics_code">
+                {% for x in num %}
+                    <option value="{{ result[x].industry_gicscode_3 }}">{{ result[x].industry_gics_3 }}</option>
+                {% endfor %}
+                <input type="submit" class="btn btn-success"  value="下一级">
+            </select>
+        </form>
+    {% endif %}
+    {% if length == 6  %}
+        <form class="form-search" action="{{ url_for('stock_group.usa_alter_sub_industry') }}" method="post">
+            <span class="help-inline">这是您所要修改的证券名称</span>
+           <input class="input-medium" name="sec_name" type="text" value="{{ sec_name }}" readOnly="true"> <br>
+            <select name="gics_code">
+                {% for x in num %}
+                    <option value="{{ result[x].industry_gicscode_4 }}">{{ result[x].industry_gics_4 }}</option>
+                {% endfor %}
+                <input type="submit" class="btn btn-success"  value="提交">
+            </select>
+        </form>
+    {% endif %}
+
+{% endblock %}
+

@@ -1,0 +1,66 @@
+{% extends "stock_base.html" %}
+{% block heading %}用户登录{% endblock %}
+{% block form %}
+            <form action="{{ url_for('.login') }}" method="POST">
+            {{ form.hidden_tag() }}
+                      <div class="form-group">
+                          {% if form.username.errors %}
+                                {% for e in form.username.errors %}
+                                      <p class="help-block">{{ e }}</p>
+                                 {% endfor %}
+
+                          {% endif %}
+                          <br>
+                        {{ form.username(class_='form-control input-lg',placeholder="请输入用户名：") }} <!--,placeholder="test"添加了好看的输入框提示效果-->
+                      </div>
+                      <div class="form-group">
+                          {% if form.password.errors %}
+                                {% for e in form.password.errors %}
+                                 <p class="help-block">{{ e }}</p>
+                                {% endfor %}
+                          {% endif %}
+                        {{ form.password(class_='form-control input-lg',placeholder="请输入密码：") }}
+                      </div>
+                      <div class="form-group">
+                            <font size="3">记住我的登录状态:</font>
+                        <span>{{ form.remember }}</span>
+                             <!--换行来排版-->
+{#                        <span><a href="newforgot.html">忘记密码？</a></span>#}
+                             <!--换行来排版-->       <br>
+                      </div>
+                        <input class="btn btn-info btn-lg btn-block" type="submit" value="立即登录">
+                             <!--换行来排版-->       <br>
+            </form>
+{% endblock %}
+
+{% block register_form %}
+    <form method="POST" action="{{ url_for('.register') }}">
+                {{ register_form.hidden_tag() }}
+                <div class="form-group">
+                    {% if register_form.username.errors %}
+                        {% for e in register_form.username.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    <br>
+                    {{ register_form.username(class_='form-control input-lg',placeholder="请输入用户名：") }}
+                </div>
+                <div class="form-group">
+                    {% if register_form.password.errors %}
+                        {% for e in register_form.password.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ register_form.password(class_='form-control input-lg',placeholder="请输入密码：") }}
+                </div>
+                <div class="form-group">
+                    {% if register_form.confirm.errors %}
+                        {% for e in register_form.confirm.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ register_form.confirm(class_='form-control input-lg',placeholder="请再次输入密码：") }}
+                </div>
+                <input class="btn btn-success btn-lg btn-block" type="submit" value="立即注册">
+            </form>
+{% endblock %}

@@ -1,0 +1,6 @@
+<form class="form-search" method="POST" action="{{ url_for('.update_gics_4') }}">
+    {{ form.hidden_tag() }}
+    您要修改的证券代码：{{ information.trade_code }} 证券名称：{{ information.sec_name }} <br>
+    请输入证券代码：{{ form.trade_code }}
+    修改“子行业”为：{{ form.gics_4 }}<input type="submit" value="更新" contenteditable="true" style="background-color: rgb(204, 232, 207);">
+</form>

@@ -1,0 +1,930 @@
+{% extends "stock_solo/stock_solo_base.html" %}
+{% block form %}
+    <caption>请输入股票名称或股票代码</caption>
+    <form class="form-search" method="POST" action="{{ url_for('stock_solo.home') }}">
+        {{ form.hidden_tag() }}
+        {{ form.code(id='tags') }}
+        <input class="btn btn-success btn-xs" type="submit" value="搜索股票" contenteditable="true" >
+    </form>
+{% endblock %}
+{% block basic %}
+    <table class="auto-style1" align="center" style="width:100%;height: 100%; border-width: 2px; border-style: solid; border-color: #000000; background-color: #FFFFFF; font-family: 宋体, Arial, Helvetica, sans-serif; font-size: 10px;">
+        <tr style="height: 15%">
+            <td rowspan="2" style="text-align:center; width:15%; border-style: solid; border-width: thin; border-color: #000000;"><img src="../static/logo.png"></td>
+            <td colspan="7">&nbsp;</td>
+        </tr>
+        <tr style="height: 10%">
+            <td class="auto-style3" style="width: 12%;background-color: #FF3300; color: #FFFFFF;">证券代码</td>
+            <td class="auto-style3" style="width: 12%;background-color: #FF3300; color: #FFFFFF;">证券名称</td>
+            <td class="auto-style3" style="width: 12%;background-color: #FF3300; color: #FFFFFF;">上市时间</td>
+            <td class="auto-style3" style="width: 12%;background-color: #FF3300; color: #FFFFFF;">部门</td>
+            <td class="auto-style3" style="width: 12%;background-color: #FF3300; color: #FFFFFF;">行业组</td>
+            <td class="auto-style3" style="width: 12%;background-color: #FF3300; color: #FFFFFF;">行业</td>
+            <td class="auto-style3" style="width: 12%;background-color: #FF3300; color: #FFFFFF;">子行业</td>
+        </tr>
+        <tr>
+            <td rowspan="7" style="border:1px solid;">&nbsp;</td>
+            <td>{{ stock.trade_code }}</td>
+            <td>{{ stock.sec_name }}</td>
+            <td>{{ stock.ipo_date }}</td>
+            <td></td>
+            <td></td>
+            <td>{{ stock.industry_gics }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>上市地点</td>
+            <td>所属板块</td>
+            <td>交易币种</td>
+            <td>会计年结日</td>
+            <td>审计机构</td>
+            <td>省份</td>
+            <td>城市</td>
+        </tr>
+        <tr>
+            <td>{{ stock.exch_city }}</td>
+            <td>&nbsp;</td>
+            <td>{{ stock.curr }}</td>
+            <td>{{ stock.fiscaldate }}</td>
+            <td>{{ stock.auditor }}</td>
+            <td>{{ stock.province }}</td>
+            <td>{{ stock.city }}</td>
+        </tr>
+        <tr>
+            <td class="auto-style2">成立时间</td>
+            <td class="auto-style2">公司属性</td>
+            <td class="auto-style2">董事长</td>
+            <td class="auto-style2" colspan="2">实际控制人</td>
+            <td class="auto-style2">公司网站</td>
+            <td class="auto-style2">联系电话</td>
+        </tr>
+        <tr>
+            <td>{{ stock.founddate }}</td>
+            <td>{{ stock.concept }}</td>
+            <td>{{ stock.boardchairmen}}</td>
+            <td>{{ stock.holder_controller}}</td>
+            <td></td><!--需要合并单元格-->
+            <td>{{ stock.website}}</td>
+            <td>{{ stock.phone}}</td>
+        </tr>
+        <tr>
+            <td>主营产品类型</td>
+            <td colspan="6">{{ stock.majorproducttype }}</td>
+        </tr>
+        <tr>
+            <td class="auto-style2">主营产品名称</td>
+            <td class="auto-style2" colspan="6">{{ stock.majorproductname }}</td>
+        </tr>
+    </table>
+{% endblock %}
+
+{% block finance_data %}
+<table id="fixtable" border="2" style="border-color:#000; white-space:nowrap;">
+    <thead>
+      <tr bgcolor="#FFCC33">
+        <th>{{ stock.sec_name }}</th>
+        <th class="td_bottom_line_title_2">项目</th>
+            {% for result in results %}
+                <td class="td_bottom_line">{{ result.the_year[:4] }}年12月31日</td>
+            {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border-style:none;">营业总收入</td>
+        <td class="td_project">R</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.tot_oper_rev == None or result.tot_oper_rev == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.tot_oper_rev|int()/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">营业总成本</td>
+        <td class="td_project">C</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.tot_oper_cost == None or result.tot_oper_cost == 0 %}
+                    NA
+                {% else %}
+                    {{ ((result.tot_oper_cost|int)/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">财务费用</td>
+        <td class="td_project">FC</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.fin_exp_is == None or result.fin_exp_is == 0 %}
+                    NA
+                {% else %}
+                    {{ ((result.fin_exp_is|int)/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">息税前利润</td>
+        <td class="td_project">EBIT</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  (result.fin_exp_is == None or result.fin_exp_is == 0) or (result.tot_profit == None or result.tot_profit == 0)%}
+                    NA
+                {% else %}
+                    {{ ((result.fin_exp_is + result.tot_profit)/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">利润总额</td>
+        <td class="td_project">EBT</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.tot_profit == None or result.tot_profit == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.tot_profit/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">净利润（总额）</td>
+        <td class="td_project">E</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.net_profit_is == None or result.net_profit_is == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.net_profit_is/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="td_bottom_line_title">净利润（股东）</td>
+        <td class="td_bottom_line_title_2">e</td>
+        {% for result in results %}
+            <td class="td_bottom_line">
+                {% if  result.wgsd_net_inc == None or result.wgsd_net_inc == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.wgsd_net_inc/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">资产总计</td>
+        <td class="td_project">TA</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.tot_assets == None or result.tot_assets == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.tot_assets/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">流动资产</td>
+        <td class="td_project">CA</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.tot_cur_assets == None or result.tot_cur_assets == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.tot_cur_assets/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">非流动资产</td>
+        <td class="td_project">NCA</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.tot_non_cur_assets == None or result.tot_non_cur_assets == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.tot_non_cur_assets/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">负债合计</td>
+        <td class="td_project">TL</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.tot_liab == None or result.tot_liab == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.tot_liab/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">流动负债</td>
+        <td class="td_project">CL</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.tot_cur_liab == None or result.tot_cur_liab == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.tot_cur_liab/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">非流动负债</td>
+        <td class="td_project">NCL</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.tot_non_cur_liab == None or result.tot_non_cur_liab == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.tot_non_cur_liab/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">净资产</td>
+        <td class="td_project">NCL</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  (result.tot_assets == None or result.tot_assets == 0) or (result.tot_liab == None or result.tot_liab == 0) %}
+                    NA
+                {% else %}
+                    {{ ((result.tot_assets - result.tot_liab)/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="td_bottom_line_title">归属股东权益</td>
+        <td class="td_bottom_line_title_2">HE</td>
+        {% for result in results %}
+            <td class="td_bottom_line">
+                {% if  result.wgsd_com_eq == None or result.wgsd_com_eq == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.wgsd_com_eq/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">经营活动现金流</td>
+        <td class="td_project">OCF</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.operatecashflow_ttm2 == None or result.operatecashflow_ttm2 == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.operatecashflow_ttm2/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">投资活动现金流</td>
+        <td class="td_project">ICF</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.investcashflow_ttm2 == None or result.investcashflow_ttm2 == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.investcashflow_ttm2/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">筹资活动现金流</td>
+        <td class="td_project">FCF</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.financecashflow_ttm2 == None or result.financecashflow_ttm2 == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.financecashflow_ttm2/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="td_bottom_line_title">现金流合计</td>
+        <td class="td_bottom_line_title_2">TCF</td>
+        {% for result in results %}
+            <td class="td_bottom_line">
+                {% if  result.cashflow_ttm2 == None or result.cashflow_ttm2 == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.cashflow_ttm2/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">货币资金</td>
+        <td class="td_project">CU</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.monetary_cap == None or result.monetary_cap == 0 %}
+                    NA
+                {% else %}
+                    {{ (result.monetary_cap/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">净流动资产</td>
+        <td class="td_project">NLA</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  (result.tot_cur_assets == None or result.tot_cur_assets == 0) or (result.tot_cur_liab == None or result.tot_cur_liab == 0) %}
+                    NA
+                {% else %}
+                    {{ ((result.tot_cur_assets - result.tot_cur_liab)/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="td_bottom_line_title">自由现金流估计</td>
+        <td class="td_bottom_line_title_2">FCF</td>
+        {% for result in results %}
+            <td class="td_bottom_line">
+                {% if  (result.operatecashflow_ttm2 == None or result.operatecashflow_ttm2 == 0) or (result.investcashflow_ttm2 == None or result.investcashflow_ttm2 == 0) %}
+                    NA
+                {% else %}
+                    {{ ((result.operatecashflow_ttm2 + result.investcashflow_ttm2)/100000000)|round(2) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">收入增长率</td>
+        <td class="td_project">RG</td>
+        {% for ratio in ratio_RG %}
+          <td class="td_num">
+              {% if ratio == None or ratio == 0 %}
+                 NA
+              {% else %}
+                {{ ((ratio-1)*100)|round(1) }}%
+              {% endif %}
+          </td>
+        {% endfor %}
+        <td class="td_num">NA</td>
+      </tr>
+      <tr>
+        <td style="border-style:none;">利润增长率</td>
+        <td class="td_project">CG</td>
+        {% for ratio in ratio_CG %}
+          <td class="td_num">
+              {% if ratio == None or ratio == 0 %}
+                NA
+              {% else %}
+                {{ ((ratio-1)*100)|round(1) }}%
+              {% endif %}
+          </td>
+        {% endfor %}
+        <td class="td_num">NA</td>
+      </tr>
+      <tr>
+        <td style="border-style:none;">毛利润率</td>
+        <td class="td_project">GPR</td>
+        {% for result in results %}
+          <td class="td_num">{{ (result.grossprofitmargin|float())|round(2) }}%</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">息税前利润率</td>
+        <td class="td_project">EBITPR</td>
+        {% for result in results %}
+          <td class="td_num"> <!--这里成功了-->
+              {% if (result.tot_oper_rev)|int()== 0 %}
+                  NA
+              {% else %}<!--从这里再开始做-->
+                  {{ ((((result.fin_exp_is)|int()+(result.tot_profit)|int())/(result.tot_oper_rev)|int())*100)|round(2) }}%
+              {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">净利润率</td>
+        <td class="td_project">EPR</td>
+        {% for result in results %}
+          <td class="td_num">
+              {% if (result.tot_oper_rev)|int()== 0 %}
+                  NA
+              {% else %}
+                  {{ (((result.net_profit_is)|int()/(result.tot_oper_rev)|int())*100)|round(2) }}%
+              {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">总资产周转率</td>
+        <td class="td_project">TTC</td>
+        {% for result in results %}
+          <td class="td_num">
+              {% if (result.tot_oper_rev)|int()== 0 %}
+                  NA
+              {% else %}
+                  {{ (((result.tot_oper_rev)|int()/(result.tot_assets)|int()))|round(2) }}
+              {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">资产负债率</td>
+        <td class="td_project">ALR</td>
+        {% for result in results %}
+          <td class="td_num">
+              {% if (result.tot_oper_rev)|int()== 0 %}
+                  NA
+              {% else %}
+                  {{ (((result.tot_liab)|int()/(result.tot_assets)|int())*100)|round(2) }}%
+              {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">权益乘数</td>
+        <td class="td_project">EM</td>
+        {% for result in results %}
+          <td class="td_num">
+              {% if (result.tot_assets|int() - result.tot_liab|int()) == 0 %}
+                  NA
+              {% else %}
+                  {{ ((result.tot_liab)|int()/(result.tot_assets|int() - result.tot_liab|int()))|round(2) }}
+              {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">投入资本回报率</td>
+        <td class="td_project">ROIC</td>
+        {% for result in results %}
+          <td class="td_num">{{ result.roic|float(0.00)|round(2) }}%</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">总资产收益率</td>
+        <td class="td_project">ROA</td>
+        {% for result in results %}
+          <td class="td_num">
+              {% if (result.tot_assets)|int() == 0 %}
+                  NA
+              {% else %}
+                  {{ (((result.net_profit_is)|int()/result.tot_assets|int())*100)|round(2) }}%
+              {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">净资产收益率（总额）</td> <!--如何给所有td统一设定样式？-->
+        <td class="td_project">ROE</td>
+        {% for result in results %}
+          <td class="td_num">
+              {% if (result.tot_assets|int()) - (result.tot_liab|int()) == 0 %}
+                  NA
+              {% else %}
+                  {{ ( ( (result.net_profit_is)|int()/((result.tot_assets|int()) - (result.tot_liab|int())) )*100 )|round(2) }}%
+              {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="td_bottom_line_title">净资产收益率（股东）</td>
+        <td class="td_bottom_line_title_2">roe</td>
+        {% for result in results %}
+          <td class="td_bottom_line">
+              {% if (result.wgsd_com_eq)|int() == 0 %}
+                  NA
+              {% else %}
+                  {{ (((result.wgsd_net_inc)|int()/(result.wgsd_com_eq)|int())*100)|round(2) }}%
+              {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">流动比率</td>
+        <td class="td_project">CR</td>
+        {% for result in results %}
+          <td class="td_num">
+              {% if (result.tot_cur_liab)|int() == 0 %}
+                  NA
+              {% else %}
+                  {{ ((result.tot_cur_assets)|int()/(result.tot_cur_liab)|int())|round(2) }}
+              {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">营业周期</td>
+        <td class="td_project">TCF</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.turndays == None or result.turndays == 0 %}
+                    NA
+                {% else %}
+                    {{ result.turndays }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">存货周转天数</td>
+        <td class="td_project">ITD</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.invturndays == None or result.invturndays == 0 %}
+                    NA
+                {% else %}
+                    {{ result.invturndays }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">应收账款周转天数</td>
+        <td class="td_project">RTD</td>
+        {% for result in results %}
+            <td class="td_num">
+                {% if  result.arturndays == None or result.arturndays == 0 %}
+                    NA
+                {% else %}
+                    {{ result.arturndays }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="td_bottom_line_title">应付账款周转天数</td>
+        <td class="td_bottom_line_title_2">PTD</td>
+        {% for result in results %}
+            <td class="td_bottom_line">
+                {% if  result.apturndays == None or result.apturndays == 0 %}
+                    NA
+                {% else %}
+                    {{ result.apturndays }}
+                {% endif %}
+            </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="border-style:none;">记账货币</td>
+        <td class="td_project">MOA</td>
+        {% for result in results %}
+          <td class="td_num">{{ stock.curr }}</td>
+        {% endfor %}
+      </tr>
+    </tbody>
+</table>
+{% endblock %}
+
+<!--投资价值分析板块-->
+{% block invest_value %}
+<table  border="2" style="border-color:#000; white-space:nowrap;"> <!-- id="fixTable" -->
+  <tr bgcolor="#CC0000">
+    <td><font color="white">{{ stock.sec_name }}</font></td>
+    {% for result in results %}
+        <td class="td_bottom_line"><font color="white">{{ result.the_year[:4] }}年12月31日</font></td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">营业收入</td>
+    {% for result in results %}
+        <td class="td_num">
+            {% if  result.tot_oper_rev == None or result.tot_oper_rev == 0 %}
+                NA
+            {% else %}
+                {{ (result.tot_oper_rev|int()/100000000)|round(2) }}
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">净利润（股东）</td>
+    {% for result in results %}
+        <td class="td_num">
+            {% if  result.wgsd_net_inc == None or result.wgsd_net_inc == 0 %}
+                NA
+            {% else %}
+                {{ (result.wgsd_net_inc/100000000)|round(2) }}
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">资产总计</td>
+    {% for result in results %}
+        <td class="td_num">
+            {% if  result.tot_assets == None or result.tot_assets == 0 %}
+                NA
+            {% else %}
+                {{ (result.tot_assets/100000000)|round(2) }}
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">归属股东权益</td>
+    {% for result in results %}
+        <td class="td_num">
+            {% if  result.wgsd_com_eq == None or result.wgsd_com_eq == 0 %}
+                NA
+            {% else %}
+                {{ (result.wgsd_com_eq/100000000)|round(2) }}
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_bottom_line_title_2">净资产收益率（股东）</td>
+    {% for result in results %}
+      <td class="td_bottom_line">
+          {% if result.wgsd_com_eq == None or result.wgsd_com_eq == 0 %}
+              NA
+          {% else %}
+              {{ ((result.wgsd_net_inc/result.wgsd_com_eq)*100)|round(2) }}%
+          {% endif %}
+      </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">股本</td>
+    {% for invest_result in invest_results %}
+        <td class="td_num">
+            {% if invest_result.total_shares == None or invest_result.total_shares == 0 %}
+                NA
+            {% else %}
+                {{ ((invest_result.total_shares)/100000000)|round(2) }}
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">每股收益</td>
+    {% for x in earnings_per_share %}
+        <td class="td_num">
+            {% if x == None or x == 0 %}
+                NA
+            {% else %}
+                {{ x|round(2) }}
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">每股净资产</td>
+    {% for x in net_assets_per_share %}
+        <td class="td_num">
+            {% if x == None or x == 0 %}
+                NA
+            {% else %}
+                {{ x|round(2) }}
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">每股账面现金</td>
+    {% for x in cash_per_share %}
+        <td class="td_num">
+            {% if x == None or x == 0 %}
+                NA
+            {% else %}
+                {{ x|round(2) }}
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">每股现金股息</td>
+    {% for invest_result in invest_results %}
+        <td class="td_num">
+            {% if invest_result.div_cashandstock == None or invest_result.div_cashandstock == 0 %}
+                NA
+            {% else %}
+                {{ invest_result.div_cashandstock|round(2) }}
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_bottom_line_title_2">支付比例</td>
+    {% for x in payment_proportion %}
+        <td class="td_bottom_line">
+            {% if x == None or x == 0 %}
+                NA
+            {% else %}
+                {{ (x*100)|int() + 1 }}%
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">均衡市盈率</td>
+    {% for x in equal_earning_rate %}
+      <td class="td_num">
+          {% if x == None or x == 0 %}
+              NA
+          {% else %}
+              {{ x|round(2) }}
+          {% endif %}
+      </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">均衡市净率</td>
+    {% for x in equal_market_rate %}
+      <td class="td_num">
+          {% if x == None or x == 0 %}
+              NA
+          {% else %}
+              {{ x|round(2) }}
+          {% endif %}
+      </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">公司价值估计</td>
+    {% for x in com_value_evaluate %}
+      <td class="td_num">
+          {% if x == None or x == 0 %}
+              NA
+          {% else %}
+              {{ (x/100000000)|round(2) }}
+          {% endif %}
+      </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_bottom_line_title_2">每股价值估计</td>
+    {% for x in per_com_value_evaluate %}
+      <td class="td_bottom_line">
+          {% if x == None or x == 0 %}
+              NA
+          {% else %}
+              {{ x|round(2) }}
+          {% endif %}
+      </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">自由现金流估计</td>
+    {% for result in results %}
+      <td class="td_num">
+        {% if (result.operatecashflow_ttm2== None or result.operatecashflow_ttm2 == 0) or (result.investcashflow_ttm2==None or result.investcashflow_ttm2 == 0) %}
+            NA
+        {% else %}
+          {{ (((result.operatecashflow_ttm2)|int()+(result.investcashflow_ttm2)|int())/100000000)|round(2) }}
+        {% endif %}
+      </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">市值</td>
+    {% for x in invest_results %}
+        <td class="td_num">
+            {% if x.ev == None or x.ev == 0 %}
+                NA
+            {% else %}
+                {{ ((x.ev)/100000000)|round(2) }}
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">市盈率</td>
+    {% for x in earning_rate %}
+      <td class="td_num">
+          {% if x == None or x == 0 %}
+              NA
+          {% else %}
+              {{ x|round(2) }}
+          {% endif %}
+      </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">市净率</td>
+    {% for x in net_rate %}
+      <td class="td_num">
+          {% if x == None or x == 0 %}
+              NA
+          {% else %}
+              {{ x|round(2) }}
+          {% endif %}
+      </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">市销率</td>
+    {% for x in sale_rate %}
+      <td class="td_num">
+          {% if x == None or x == 0 %}
+              NA
+          {% else %}
+              {{ x|round(2) }}
+          {% endif %}
+      </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">市现率</td>
+    {% for x in cash_rate %}
+      <td class="td_num">
+          {% if x == None or x == 0 %}
+              NA
+          {% else %}
+              {{ x|round(2) }}
+          {% endif %}
+      </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">股息收益率</td>
+    {% for x in invest_results %}
+        <td class="td_num">
+            {% if x.dividendyield2 == None or x.dividendyield2 == 0 %}
+                NA
+            {% else %}
+                {{ x.dividendyield2|round(2) }}%
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_bottom_line_title_2">现金收益率估计</td>
+    {% for x in cash_yield_evaluate %}
+        <td class="td_bottom_line">
+            {% if x == None or x == 0 %}
+                NA
+            {% else %}
+                {{ (x*100)|round(2) }}%
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">整体价值估计（含货币）</td>
+    {% for x in invest_results %}
+        <td class="td_num">
+            {% if x.ev1 == None or x.ev1 == 0 %}
+                NA
+            {% else %}
+                {{ ((x.ev1)/100000000)|round(2) }}
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_project">整体价值估计（不含货币）</td>
+    {% for x in invest_results %}
+        <td class="td_num">
+            {% if x.ev2 == None or x.ev2 == 0 %}
+                NA
+            {% else %}
+                {{ ((x.ev2)/100000000)|round(2) }}
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="td_bottom_line_title_2">雇员数量</td>
+    {% for x in invest_results %}
+        <td class="td_num">
+            {% if x.employee == None or x.employee == 0 %}
+                NA
+            {% else %}
+                {{ x.employee }}
+            {% endif %}
+        </td>
+    {% endfor %}
+  </tr>
+</table>
+{% endblock %}
+
+<!--制图数据板块-->
+{% block draw_picture %}
+{% endblock %}
+{% block picture_analysis %}
+    <p>put picture analysis here</p>
+{% endblock %}

@@ -1,0 +1,230 @@
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>金融投资分析系统</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='js/bootstrap.min.css') }}">
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+{#    <style>#}
+{#        body{#}
+{#          padding-top:50px;#}
+{#        }#}
+{#        /* .navbar-nav li:visited{#}
+{#          display: inline-block;#}
+{#          background:  red;#}
+{#          } */#}
+{#          .navbar-nav li:hover{#}
+{#            display: inline-block;#}
+{#            background-color: #787d82;#}
+{#          }#}
+{#          .carousel{#}
+{#            max-height:500px;#}
+{#            /* background-color: red; */#}
+{#            margin-bottom: 70px;#}
+{#          }#}
+{#          .carousel .item{#}
+{#            height:100%;#}
+{#          }#}
+{#          .carousel .item img{#}
+{#            width:100%;#}
+{#          }#}
+{#          .carousel-inner .carousel-caption{#}
+{#              float: left;#}
+{#          }#}
+{#          #container-produce{#}
+{#            text-align: center;#}
+{#          }#}
+{#          #container-produce .col-md-4 .img-circle{#}
+{#            width:140px;#}
+{#            height:140px;#}
+{#            background-color: #555;#}
+{#          }#}
+{#        /* #container-produce a{#}
+{#          vertical-align: bottom;#}
+{#          } */#}
+{#          .feature{#}
+{#            padding: 30px 0;#}
+{#          }#}
+{#          .feature .img-circle{#}
+{#            width: 250px;#}
+{#            height: 250px;#}
+{#          }#}
+{#          .feature-heading{#}
+{#            font-size: 40px;#}
+{#            color: #245689;#}
+{#            margin-top:60px;#}
+{#          }#}
+{#          .feature-heading .feature-heading-2{#}
+{#            font-size: 20px;#}
+{#            color:#356790;#}
+{#          }#}
+{#          #threecols{#}
+{#            margin-bottom:70px;#}
+{#          }#}
+{#          footer{#}
+{#            margin-top:20px;#}
+{#          }#}
+{#          #footer{#}
+{#            position: absolute;#}
+{#            bottom: 0;#}
+{#          }#}
+{#          #signin-signup-tab{#}
+{#            margin-top: 30px;#}
+{#          }#}
+{#          </style>#}
+</head>
+<body>
+
+    <nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <img src="../static/logo_white_test.png">
+        </div><!--OK-->
+        <div>
+            <a class="navbar-brand" href="#">金融投资分析系统</a>
+        </div>
+        <div class="pull-right">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                       账户设置
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li data-toggle="modal" data-target="#signin-signup-tab" id="signin-button"><a href="#"> 登陆 </a></li>
+						<li data-toggle="modal" data-target="#signin-signup-tab" id="signup-button"><a href="#"> 注册 </a></li>
+                        <li class="divider"></li>
+                    </ul>
+                </li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+        </div>
+    </div>
+    </nav>
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+              <!-- Indicators 三个小圆点-->
+              <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+              </ol>
+              <!-- Wrapper for slides -->
+              <div class="carousel-inner" role="listbox">
+                  <div class="item">
+                        <img src="../static/shenzhen.jpg">
+                        <div class="carousel-caption">
+                            <h1>深圳</h1>
+                            <p>深圳是中国改革开放建立的第一个经济特区，是中国改革开放的窗口，深圳是国务院定位的全国性经济中心和国际化城市。</p>
+                        </div>
+                  </div>
+                  <div class="item">
+                        <img src="../static/niuyue.jpg">
+                        <div class="carousel-caption">
+                            <h1>纽约</h1>
+                            <p>纽约坐拥大纽约都会区的核心地带，是一座世界级国际化大都市，也是世界第一大经济中心，其GDP于2013年超越东京，位居世界第一。截至2010年，纽约的财产所有总值为813万亿美元，直接影响着全球的金融、媒体、政治、娱乐以及时尚界。</p>
+                  </div>
+                  </div>
+                  <div class="item active">
+                        <img src="../static/shanghai.jpg">
+                        <div class="carousel-caption">
+                            <h1>上海</h1>
+                            <p>上海，简称“沪”或“申”，是中华人民共和国直辖市，国家中心城市，超大城市，中国的经济、交通、科技、工业、金融、贸易、会展和航运中心，首批沿海开放城市。</p>
+                  </div>
+                  </div>
+              </div>
+
+              <!-- Controls -->
+              <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+    <hr class="divider">
+    <footer></footer>
+    <div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">博主myvin的其他信息</h4>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    <div id="signin-signup-tab" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">x</button>
+                <ul class="nav nav-pills nav-tabs" role="tablist">
+                  <li id="signin-li"><a href="#signin-tab" role="tab" data-toggle="tab">登陆</a></li>
+                  <li id="signup-li"><a href="#signup-tab" role="tab" data-toggle="tab">注册</a></li>
+                </ul>
+                <div class="tab-content" id="signin-signup-tab">
+                  <div class="tab-pane" id="signup-tab">
+                      {% block register_form %}{% endblock %}
+                  </div>
+{#                <form action="" class="form col-md-12 center-block">#}
+{#                      <div class="form-group">#}
+{#                        <input type="text" class="form-control input-lg" placeholder="请输入登陆邮件" title="邮箱正确格式：xxx@xxx.com">#}
+{#                      </div>#}
+{#                      <div class="form-group">#}
+{#                        <input id="password1" type="password" class="form-control input-lg" placeholder="请输入登陆密码">#}
+{#                      </div>#}
+{#                      <div class="form-group">#}
+{#                        <input id="password2" type="password" class="form-control input-lg" placeholder="请再次输入密码">#}
+{#                      </div>#}
+{#                      <div class="form-group">#}
+{#                        <input type="password" class="form-control input-lg" placeholder="请输入用户昵称">#}
+{#                      </div>#}
+{#                      <div class="form-group">#}
+{#                        <input type="password" class="form-control input-lg" placeholder="请输入验证码">#}
+{#                      </div>#}
+{#                      <div class="form-group">#}
+{#                        <button class="btn btn-primary btn-lg btn-block">注册</button>#}
+{#                      </div>#}
+{#                    </form>#}
+                  <div class="tab-pane" id="signin-tab">
+                     {% block form %}{% endblock %}
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+    <script>
+        $(document).ready(function(){
+          $('#signin-button').click(function(){
+            $('#signup-li').removeClass('active');
+            $('#signup-tab').removeClass('active');
+            $('#signin-li').addClass('active');
+            $('#signin-tab').addClass('active');
+          });
+          $('#signup-button').click(function(){
+            $('#signin-li').removeClass('active');
+            $('#signin-tab').removeClass('active');
+            $('#signup-li').addClass('active');
+            $('#signup-tab').addClass('active');
+          });
+
+          $('.dropdown-menu a').click(function(){
+              var href=$(this).attr('href');
+              $('#tab-list a[href="'+href+'"]').tab('show');
+          });
+
+        });
+        </script>
+
+</body>
+</html>

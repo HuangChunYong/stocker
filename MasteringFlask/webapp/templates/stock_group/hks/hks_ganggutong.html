@@ -1,0 +1,90 @@
+{% extends "stock_group/usa/usa_base.html" %}
+
+{# 添加分页模板宏 #}
+{% import "_macros.html" as macros %}
+
+{% block fixTable %}
+    <script>
+			$(document).ready(function() {
+				$("#fixTable").tableHeadFixer({"left" : 3});
+			});
+    </script>
+{% endblock %}
+
+{% block tab %}
+    <ul class="nav nav-pills">
+        <li><a href="{{ url_for('stock_group.hks_home') }}">HKEX.香港交易所上市公司</a></li>
+        <li><a>ETF基金及其他证券</a></li>
+        <li>
+            <a href="{{ url_for('stock_group.hks_hengsheng_index') }}">附表1.恒生指数成份股</a>
+        </li>
+        <li>
+            <a href="{{ url_for('stock_group.hks_hengsheng_comindex') }}">附表2.恒生综合指数成份股</a>
+        </li>
+        <li class="active">
+            <a href="{{ url_for('stock_group.hks_ganggutong') }}">附表3.港股通</a>
+        </li>
+        <li><a>附表A.行业分类</a></li>
+    </ul>
+{% endblock %}
+
+{% block industry %}
+<table id="fixTable" border="2" style="border-color:#000;white-space: nowrap;">
+    <thead>
+        <tr bgcolor="#CC0000">
+            <td><font color="white">证券代码</font></td>
+            <td><font color="white">证券名称</font></td>
+            <td><font color="white">上市时间</font></td>
+            <td><font color="white">行业类别</font></td>
+            <td><font color="white">行业组</font></td>
+            <td><font color="white">行业</font></td>
+            <td><font color="white">子行业</font></td>
+            <td><font color="white">主营业务</font></td>
+            <td><font color="white">所在区域</font></td>
+            <td><font color="white">注册地</font></td>
+            <td><font color="white">交易所</font></td>
+            <td><font color="white">所属国家</font></td>
+            <td><font color="white">交易币种</font></td>
+            <td><font color="white">公司名称</font></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for x in range(length) %}
+            <tr>
+                <td style="border: none;">{{ result[x][0].trade_code }}</td>
+                <td style="border: none;">{{ result[x][0].sec_name }}</td>
+                <td style="border: none;">{{ result[x][0].ipo_date }}</td>
+                <td style="border: none;">{{ result[x].industry_gics_1 }}</td>
+                <td style="border: none;">{{ result[x].industry_gics_2 }}</td>
+                <td style="border: none;">{{ result[x].industry_gics_3 }}</td>
+                <td style="border: none;">
+                    {{ result[x].industry_gics_4 }}
+                </td>
+                <td style="border: none;">
+                    {{ result[x][0].business[:40] }}
+                </td>
+                <td style="border: none;">{{ result[x][0].country }}</td>
+                <td style="border: none;">{{ result[x][0].address }}</td>
+                <td style="border: none;">{{ result[x][0].exch_city }}</td>
+                <td style="border: none;">{{ result[x][0].country }}</td>
+                <td style="border: none;">{{ result[x][0].curr }}</td>
+                <td style="border: none;">
+                    {{ result[x][0].comp_name[:60] }}
+                    <a>更多</a> <!--跳转显示详情-->
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block navigation%}
+    {% if pagination %}
+        <div class="pagination">
+            {{ macros.pagination_widget(pagination,'.hks_ganggutong') }} {# 是home吗 #}
+        </div>
+    {% endif %}
+{% endblock %}
+
+
+{# 这是分页导航栏 #}

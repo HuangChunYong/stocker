@@ -1,0 +1,154 @@
+<html>
+<head>
+    <meta charset='utf-8'>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-2.0.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-ui') }}"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+<!--链接本地文件的写法，css和js的写法不一样 ps:还有一个js文件在上面-->
+    <script type="text/javascript" src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+    <link href="{{ url_for('static',filename='css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+
+    <!--自动补全-->
+    <script>
+      $(function() {
+        var availableTags =
+            [{% for x in list_len %} <!--这里直接写range(list_len)不行，会在返回功能主页时出错"list_len is undefined"-->
+                {% for i in (0,1) %}
+                    "{{ rs[x][i] }}",
+                {% endfor %}
+            {% endfor %}];
+        $( "#tags" ).autocomplete({
+          source: availableTags
+        });
+      });
+    </script>
+    <!--锁定行列的js文件-->
+    <script type="text/javascript" src="{{ url_for('static',filename='js/tableHeadFixer.js') }}"></script>
+{% block fixTable%}{% endblock %}
+    <style>
+        *{
+            font-family: "Times New Roman";
+            font-size: 12px;
+        }
+        .td_num
+        {
+            text-align: right;
+            border-style:none ;
+        }
+        .td_num_2
+        {
+            text-align: left;
+            border-style:none ;
+        }
+        .td_project
+        {
+            text-align: left;
+            border-left-style:none ;
+            border-top-style:none ;
+            border-bottom-style:none ;
+        }
+        .td_bottom_line
+        {
+            text-align: right;
+            border-left-style:none ;
+            border-top-style:none ;
+            border-right-style:none ;
+        }
+        .td_bottom_line_title
+        {
+            text-align: left;
+            border-left-style:none ;
+            border-top-style:none ;
+            border-right-style:none ;
+        }
+        .td_bottom_line_title_2
+        {
+            text-align: left;
+            border-left-style:none ;
+            border-top-style:none ;
+        }
+        #fixTable
+        {
+            width: 1800px !important;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse " role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <img src="../static/logo_white_test.png">
+        </div><!--OK-->
+        <div>
+            <a class="navbar-brand" href="#">金融投资分析系统</a>
+        </div>
+        <div class="pull-right">
+            <ul class="nav navbar-nav">
+                <li><a>{% block current_user %}{% endblock %}</a></li> <!--不套a标签就不显示当前用户为什么-->
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        账户设置 <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+						<li><a href="#">设置</a></li>
+						<li><a href="#">其他</a></li>
+                        <li class="divider"></li>
+						<li><a href="{{ url_for('main.logout') }}">注销退出</a></li>
+                    </ul>
+                </li>
+                <li><a href="/stock">返回主页</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="container-fluid" id="LG" style="width: 90%;margin: auto;margin-top: 1%;">
+        <div>
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>
+
+
+<!-- 以前的我导航栏，不要了
+<nav class="navbar navbar-inverse" role="navigation">
+	<div class="container-fluid">
+    <div class="navbar-header">
+        <a href="#"><img src="../static/logo_white_test.png"></a>
+    </div>
+    <div>
+        <ul class="nav navbar-nav">
+            <li><a><h4>金融投资分析系统</h4></a></li>
+        </ul>
+        <ul class="nav nav-pills"></ul>
+        <ul class="nav pull-right">
+            <li class="divider-vertical"></li>
+{#            <li><a><h6>{% block current_user %}{% endblock %}</h6></a></li>#}
+            <li><a href="/stock"><h5>返回主页</h5></a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><h5>账户设置</h5></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#">登录</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">设置</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">其他</a>
+                                    </li>
+                                    <li class="divider">
+                                    </li>
+                                    <li>
+{#                                        <a href="{{ url_for('main.logout') }}">注销账户</a>#}
+                                    </li>
+								</ul>
+            </li>
+        </ul>
+    </div>
+	</div>
+</nav>
+
+-->

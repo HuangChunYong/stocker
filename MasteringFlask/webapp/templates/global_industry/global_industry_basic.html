@@ -1,0 +1,115 @@
+{% extends "global_industry/global_industry_base.html" %}
+
+{% block tab %}
+        <ul class="nav nav-pills">
+            <li class="active"><a>RA.投资分类评级</a></li>
+            <li><a>CHS.大陆市场</a></li>
+            <li><a>HKS.香港市场</a></li>
+            <li><a>USA.美国市场</a></li>
+            <li><a>UKS.英国市场</a></li>
+            <li><a>EPS.欧洲市场</a></li>
+            <li><a>JPS.日本市场</a></li>
+        </ul>
+{% endblock %}
+
+{% block fixTable %}
+    <script>
+			$(document).ready(function() {
+				$("#fixTable").tableHeadFixer({"left" : 1});
+			});
+    </script>
+{% endblock %}
+
+{% block table %}
+    <br> <!--以后加id=fixTable-->
+    <table class="auto-style1" align="center" style="width:100%;height: 100%; border-width: 2px; border-style: solid; border-color: #000000; background-color: #FFFFFF; font-family: 宋体, Arial, Helvetica, sans-serif; font-size: 10px;">
+        <tr style="height: 15%">
+            <td rowspan="2" style="text-align:center; width:15%; border-style: solid; border-width: thin; border-color: #000000;"><img src="../static/logo.png"></td>
+            <td colspan="10"><h4 style="margin-left: 10%">全球股票投资分类评级</h4></td>
+        </tr>
+        <tr style="height: 5%">
+            <td style="width: auto;background-color: #0e90d2; color: #FFFFFF;"></td>
+            <td style="width: auto;background-color: #0e90d2; color: #FFFFFF;"></td>
+            <td style="width: auto;background-color: #0e90d2; color: #FFFFFF;"></td>
+            <td style="width: auto;background-color: #0e90d2; color: #FFFFFF;"></td>
+            <td style="width: auto;background-color: #0e90d2; color: #FFFFFF;"></td>
+            <td style="width: auto;background-color: #0e90d2; color: #FFFFFF;"></td>
+            <td style="width: auto;background-color: #0e90d2; color: #FFFFFF;"></td>
+            <td style="width: auto;background-color: #0e90d2; color: #FFFFFF;"></td>
+            <td style="width: auto;background-color: #0e90d2; color: #FFFFFF;"></td>
+            <td style="width: auto;background-color: #0e90d2; color: #FFFFFF;"></td>
+        </tr>
+        <tr class="1">
+		<td rowspan="3">数据获取时间<br>2017年4月1日</td>
+		<td colspan="10">投资分类评级是我们依据一系列原则、基础事实以及我们的投资经验建立的一种描述上市公司证券投资吸引力的标准化系统方法。</td>
+	</tr>
+	<tr class="2">
+		<td colspan="10">投资分类评级将主要被我们应用在对普通股票的分类检索及投资吸引力评价中；同时，它也将对优先股票、普通债券及其他证券的投资吸引力评价提供有价值的指导。</td>
+	</tr>
+	<tr class="3">
+		<td colspan="10">投资分类评级是描述上市证券投资吸引力的一种独立、客观、保守的标准化方法和参考系统。</td>
+	</tr>
+	<tr class="4">
+		<td rowspan="2">最佳的投资：A评级</td>
+		<td colspan="10">
+            主要给予最优秀及最值得信任的上市公司股票。符合该评级标准的公司应具备如下条件：<br>1.      主要证券交易所重要股票指数的成份股；<br>2.      净资产收益率在最近6年中均不低于20%，且应至少有一年达到或接近25%，或与此接近；<br>3.      近期净利润超过或接近10亿、净资产超过或接近50亿但不得低于30亿，或与此接近；<br>4.      具有较长的优秀发展时期；<br>5.      具有较好的资本市场知名度和市场形象。
+        </td>
+	</tr>
+	<tr class="5">
+		<td colspan="10">如果有个别条件不令人满意，但却非常有潜力的公司，将被评级为A-；其他保持评级为A。在定期调整中，评级可能会进行一次非越级变动。</td>
+	</tr>
+	<tr class="6">
+		<td rowspan="2">有待考察的投资：B评级</td>
+		<td colspan="10"></td>
+	</tr>
+	<tr class="7">
+		<td colspan="10"></td>
+	</tr>
+	<tr class="8">
+		<td rowspan="2">一般的投资：C评级</td>
+		<td colspan="10"></td>
+	</tr>
+	<tr class="9">
+		<td colspan="10"></td>
+	</tr>
+	<tr class="10">
+		<td rowspan="2">缺乏价值的投资：D评级</td>
+		<td colspan="10"></td>
+	</tr>
+	<tr class="11">
+		<td colspan="10"></td>
+	</tr>
+	<tr class="12">
+		<td rowspan="2">未分类的投资：E评级</td>
+		<td colspan="10"></td>
+	</tr>
+	<tr class="11">
+		<td colspan="10"></td>
+	</tr>
+	<tr class="13">
+		<td></td>
+		<td colspan="2"></td>
+		<td colspan="2"></td>
+		<td colspan="2"></td>
+		<td colspan="2"></td>
+		<td colspan="2"></td>
+	</tr>
+	<tr class="13">
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr class="14">
+		<td></td>
+		<td colspan="10"></td>
+	</tr>
+    </table>
+{% endblock %}

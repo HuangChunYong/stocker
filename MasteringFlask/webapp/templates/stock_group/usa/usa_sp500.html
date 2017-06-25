@@ -1,0 +1,84 @@
+{% extends "stock_group/usa/usa_base.html" %}
+
+{# 添加分页模板宏 #}
+{% import "_macros.html" as macros %}
+
+{% block fixTable %}
+    <script>
+			$(document).ready(function() {
+				$("#fixTable").tableHeadFixer({"left" : 3});
+			});
+    </script>
+{% endblock %}
+
+{% block tab %}
+    <ul class="nav nav-pills">
+        <li><a href="{{ url_for('stock_group.usa_home') }}">USA.全部美国交易所上市公司</a></li>
+        <li class="active"><a href="{{ url_for('stock_group.usa_djia') }}">附表1.道琼斯工业指数成份股</a></li>
+        <li><a href="{{ url_for('stock_group.usa_sp500') }}">附表2.标准普尔500成份股</a></li>
+        <li><a>附表A.行业分类</a></li>
+    </ul>
+{% endblock %}
+
+{% block industry %}
+<table id="fixTable" border="2" style="border-color:#000;white-space: nowrap;">
+    <thead>
+        <tr bgcolor="#CC0000">
+            <td><font color="white">证券代码</font></td>
+            <td><font color="white">证券名称</font></td>
+            <td><font color="white">上市时间</font></td>
+            <td><font color="white">行业类别</font></td>
+            <td><font color="white">行业组</font></td>
+            <td><font color="white">行业</font></td>
+            <td><font color="white">子行业</font></td>
+            <td><font color="white">主营业务</font></td>
+            <td><font color="white">所在区域</font></td>
+            <td><font color="white">注册地</font></td>
+            <td><font color="white">交易所</font></td>
+            <td><font color="white">所属国家</font></td>
+            <td><font color="white">交易币种</font></td>
+            <td><font color="white">公司介绍</font></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for x in range(length) %}
+            <tr>
+                <td style="border: none;">{{ result[x][0].trade_code }}</td>
+                <td style="border: none;">{{ result[x][0].sec_name }}</td>
+                <td style="border: none;">{{ result[x][0].ipo_date }}</td>
+                <td style="border: none;">{{ result[x].industry_gics_1 }}</td>
+                <td style="border: none;">{{ result[x].industry_gics_2 }}</td>
+                <td style="border: none;">{{ result[x].industry_gics_3 }}</td>
+                <td style="border: none;">
+                    {{ result[x].industry_gics_4 }}
+                    <a href="{{ url_for('stock_group.usa_update_gics_4',trade_code=result[x][0].trade_code) }}">修改</a>
+                </td>
+                <td style="border: none;">
+                    {{ result[x][0].business[:40] }}
+                    <a href="{{ url_for('stock_group.usa_business_detail',trade_code=result[x][0].trade_code) }}">更多</a> <!--跳转显示详情-->
+                </td>
+                <td style="border: none;">{{ result[x][0].country }}</td>
+                <td style="border: none;">{{ result[x][0].address }}</td>
+                <td style="border: none;">{{ result[x][0].exch_city }}</td>
+                <td style="border: none;">{{ result[x][0].country }}</td>
+                <td style="border: none;">{{ result[x][0].curr }}</td>
+                <td style="border: none;">
+                    {{ result[x][0].briefing[:60] }}
+                    <a>更多</a> <!--跳转显示详情-->
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block navigation%}
+    {% if pagination %}
+        <div class="pagination">
+            {{ macros.pagination_widget(pagination,'.usa_sp500') }} {# 是home吗 #}
+        </div>
+    {% endif %}
+{% endblock %}
+
+
+{# 这是分页导航栏 #}

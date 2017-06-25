@@ -1,0 +1,224 @@
+<!-- 这个网页是区别于cns_stock_industry.html，因为有冲突所以删除了分页功能-->
+{% extends "stock_group/hks/hks_base.html" %}
+
+{% block fixTable %}
+    <script>
+			$(document).ready(function() {
+				$("#fixTable").tableHeadFixer({"left" : 3});
+			});
+    </script>
+{% endblock %}
+
+{% block tab %}
+    <ul class="nav nav-pills">
+        <li class="active"><a href="{{ url_for('stock_group.hks_home') }}">HKEX.香港交易所上市公司</a></li>
+        <li><a>ETF基金及其他证券</a></li>
+        <li>
+            <a href="{{ url_for('stock_group.hks_hengsheng_index') }}">附表1.恒生指数成份股</a>
+        </li>
+        <li>
+            <a href="{{ url_for('stock_group.hks_hengsheng_comindex') }}">附表2.恒生综合指数成份股</a>
+        </li>
+        <li>
+            <a href="{{ url_for('stock_group.hks_ganggutong') }}">附表3.港股通</a>
+        </li>
+        <li><a>附表A.行业分类</a></li>
+    </ul>
+{% endblock %}
+
+{% block industry %}
+<!-- 模态框 组 -->
+<div class="modal fade" id="department_industry" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					筛选：部门bumen
+				</h4>
+			</div>
+        <form class="form-search" method="POST" action="{{ url_for('.hks_filter') }}">
+			<div class="modal-body">
+                {{ hks_filterform1.hidden_tag() }}
+                {{ hks_filterform1.gics_code(class_='input-md form-control') }} <!-- (class_='')这种方法指定class类 -->
+			</div>
+			<div class="modal-footer">
+                <a href="{{ url_for('.hks_home') }}">
+                    <input type="button" class="btn btn-default" value="重置" contenteditable="true" >
+                </a>
+				<input type="submit" class="btn btn-primary" value="筛选" contenteditable="true" >
+			</div>
+        </form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+<div class="modal fade" id="group_industry" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					筛选：行业组
+				</h4>
+			</div>
+		<form class="form-search" method="POST" action="{{ url_for('.hks_filter') }}">
+			<div class="modal-body">
+                {{ hks_filterform2.hidden_tag() }}
+                {{ hks_filterform2.gics_code(class_='input-md form-control') }} <!-- (class_='')这种方法指定class类 -->
+			</div>
+			<div class="modal-footer">
+                <a href="{{ url_for('.hks_home') }}">
+                    <input type="button" class="btn btn-default" value="重置" contenteditable="true" >
+                </a>
+				<input type="submit" class="btn btn-primary" value="筛选" contenteditable="true" >
+			</div>
+        </form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+<div class="modal fade" id="industry_why" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					筛选：行业
+				</h4>
+			</div>
+		<form class="form-search" method="POST" action="{{ url_for('.hks_filter') }}">
+			<div class="modal-body">
+                {{ hks_filterform3.hidden_tag() }}
+                {{ hks_filterform3.gics_code(class_='input-md form-control') }} <!-- (class_='')这种方法指定class类 -->
+			</div>
+			<div class="modal-footer">
+                <a href="{{ url_for('.hks_home') }}">
+                    <input type="button" class="btn btn-default" value="重置" contenteditable="true" >
+                </a>
+				<input type="submit" class="btn btn-primary" value="筛选" contenteditable="true" >
+			</div>
+        </form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+<div class="modal fade" id="sub_industry" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					筛选：子行业
+				</h4>
+			</div>
+		<form class="form-search" method="POST" action="{{ url_for('.hks_filter') }}">
+			<div class="modal-body">
+                {{ hks_filterform4.hidden_tag() }}
+                {{ hks_filterform4.gics_code(class_='input-md form-control') }} <!-- (class_='')这种方法指定class类 -->
+			</div>
+			<div class="modal-footer">
+                <a href="{{ url_for('.hks_home') }}">
+                    <input type="button" class="btn btn-default" value="重置" contenteditable="true" >
+                </a>
+				<input type="submit" class="btn btn-primary" value="筛选" contenteditable="true" >
+			</div>
+        </form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+
+<table id="fixTable"  style="border-color:#000;white-space: nowrap;"> <!--border="1"有无会有点区别-->
+    <thead>
+        <tr bgcolor="#CC0000">
+            <td><font color="white">证券代码</font></td>
+            <td><font color="white">证券名称</font></td>
+            <td><font color="white">上市时间</font></td>
+            <td>
+                <font color="white">部门</font>
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li data-toggle="modal" data-target="#department_industry"><a href="#">筛选</a></li>
+                    <li><a href="#">修改</a></li>
+                </ul>
+            </td>
+            <td>
+                <font color="white">行业组</font>
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li data-toggle="modal" data-target="#group_industry"><a href="#">筛选</a></li>
+                    <li><a href="#">修改</a></li>
+                </ul>
+            </td>
+            <td>
+                <font color="white">行业</font>
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li data-toggle="modal" data-target="#industry_why"><a href="#">筛选</a></li>
+                    <li><a href="#">修改</a></li>
+                </ul>
+            </td>
+            <td>
+                <font color="white">子行业</font>
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li data-toggle="modal" data-target="#sub_industry"><a href="#">筛选</a></li>
+                    <li><a href="#">修改</a></li>
+                </ul>
+            </td>
+            <td><font color="white">主营业务</font></td>
+            <td><font color="white">所在区域</font></td>
+            <td><font color="white">注册地</font></td>
+            <td><font color="white">交易所</font></td>
+            <td><font color="white">所属区域</font></td>
+            <td><font color="white">交易币种</font></td>
+            <td><font color="white">公司名称</font></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for x in range(length) %}
+            <tr>
+                <td style="border: none;">{{ result[x][0].trade_code }}</td>
+                <td style="border: none;">{{ result[x][0].sec_name }}</td>
+                <td style="border: none;">{{ result[x][0].ipo_date }}</td>
+                <td style="border: none;">
+                    {{ result[x].industry_gics_1 }}
+                </td>
+                <td style="border: none;">{{ result[x].industry_gics_2 }}</td>
+                <td style="border: none;">{{ result[x].industry_gics_3 }}</td>
+                <td style="border: none;">
+                    {{ result[x].industry_gics_4 }}
+                </td>
+                <td style="border: none;">
+                    {{ result[x][0].business[:40] }}
+                </td>
+                <td style="border: none;">{{ result[x][0].country }}</td>
+                <td style="border: none;">{{ result[x][0].address }}</td>
+                <td style="border: none;">{{ result[x][0].exch_city }}</td>
+                <td style="border: none;">{{ result[x][0].country }}</td>
+                <td style="border: none;">{{ result[x][0].curr }}</td>
+                <td style="border: none;">
+                    {{ result[x][0].comp_name[:60] }}
+                    <a>更多</a> <!--跳转显示详情-->
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+
+{# 这是分页导航栏 #}

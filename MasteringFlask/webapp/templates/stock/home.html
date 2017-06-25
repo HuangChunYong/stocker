@@ -1,0 +1,69 @@
+{% extends "stock_base_xb.html" %}
+{% block current_user %}
+    当前用户：{{ current_user.username }}
+{% endblock %}
+{% block body %}
+<div class="parent" style="width:100%;height:50%;text-align: center;background-color: rgba(161,252,146,0.11);">
+            <a href="{{ url_for('stock_solo.basic') }}">
+                <div class="panel panel-primary" style="height:60%;width: 15%;float: left;margin: 2%;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">分析体系</h3>
+                    </div>
+                    <div class="panel-body">
+                        单个证券<br>一组证券<br>行业状况
+                    </div>
+                </div>
+            </a>
+            <a href="{{ url_for('stock_solo.maintanance') }}">
+                <div class="panel panel-success" style="height:60%;width: 15%;float: left;margin: 2%;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">计算体系</h3>
+                    </div>
+                    <div class="panel-body">
+                        智能计算<br>量化分析<br>表现评价
+                    </div>
+                </div>
+            </a>
+            <a href="{{ url_for('stock_solo.maintanance') }}">
+                <div class="panel panel-info" style="height:60%;width: 15%;float: left;margin: 2%;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">表现体系</h3>
+                    </div>
+                    <div class="panel-body">
+                        分组结果<br>优化结果<br>调整结果
+                    </div>
+                </div>
+            </a>
+            <a href="{{ url_for('stock_solo.maintanance') }}">
+                <div class="panel panel-warning" style="height:60%;width: 15%;float: left;margin: 2%;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">决策体系</h3>
+                    </div>
+                    <div class="panel-body">
+                        选择组合<br>组合管理<br>组合筛选
+                    </div>
+                </div>
+            </a>
+            <a href="{{ url_for('stock_solo.maintanance') }}">
+                <div class="panel panel-danger" style="height:60%;width: 15%;float: left;margin: 2%;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">交易体系</h3>
+                    </div>
+                    <div class="panel-body">
+                        账户管理<br>交易控制<br>风险监测
+                    </div>
+                </div>
+            </a>
+{#            <a href="{{ url_for('stock_solo.maintanance') }}">#}
+{#                <div class="panel panel-primary" style="height:60%;width: 15%;float: left;margin: 2%;">#}
+{#                    <div class="panel-heading">#}
+{#                        <h3 class="panel-title">评价体系</h3>#}
+{#                    </div>#}
+{#                    <div class="panel-body">#}
+{#                        收益评价<br>股票评价<br>用户评价#}
+{#                    </div>#}
+{#                </div>#}
+{#            </a>#}
+    </div>
+
+{% endblock %}
